@@ -2,32 +2,32 @@
 ;$PATH=/_N_CUS_DIR
 PROC BROACHING DISPLOF
 ;***************************************************************
-;*  ±à    Ð´      :                                             
-;*  Ê±    ¼ä      :                                             
-;*  »ú´²±àºÅ      :                                             
-;*  Ãè    Êö      : ÓÃÓÚºº½­»ú´²Éý¼¶¸ÄÔìºó¼ÃÄÏÀ­´²µÄÀ­Ï÷¹ý³Ì¿ØÖÆ
+;*  ç¼–    å†™      :                                             
+;*  æ—¶    é—´      :                                             
+;*  æœºåºŠç¼–å·      :                                             
+;*  æ    è¿°      : ç”¨äºŽæ±‰æ±ŸæœºåºŠå‡çº§æ”¹é€ åŽæµŽå—æ‹‰åºŠçš„æ‹‰å‰Šè¿‡ç¨‹æŽ§åˆ¶
 ;***************************************************************
- DEF INT _I                  ; µ¶ºÐÐòÁÐ¼ÆÊý
- DEF INT _J                  ; é¾²ÛÊý¼ÆÊý
- DEF REAL _POSA              ; AÖáÎ»ÖÃ
+ DEF INT _I                  ; åˆ€ç›’åºåˆ—è®¡æ•°
+ DEF INT _J                  ; æ¦«æ§½æ•°è®¡æ•°
+ DEF REAL _POSA              ; Aè½´ä½ç½®
  STOPRE                      ; 
- IF R0==0                    ; Èç¹ûÆô¶¯ÐÂ³ÌÐò(¼Ó¹¤ÏÂÒ»¸öÁã¼þ)
-    R5=1                     ; µÚÒ»µ¶ºÐÐòÁÐ¿ªÊ¼ 
-    R7=1                     ; µÚÒ»²Û¿ªÊ¼
+ IF R0==0                    ; å¦‚æžœå¯åŠ¨æ–°ç¨‹åº(åŠ å·¥ä¸‹ä¸€ä¸ªé›¶ä»¶)
+    R5=1                     ; ç¬¬ä¸€åˆ€ç›’åºåˆ—å¼€å§‹ 
+    R7=1                     ; ç¬¬ä¸€æ§½å¼€å§‹
  ENDIF
- R8  = R240                  ; ÐòÁÐºÅ
- R10 = NUMBER_OF_SLOTS       ; ²Û×ÜÊý
- R11 = NUMBER_OF_SLOTS       ; ²Û×ÜÊý
+ R8  = R240                  ; åºåˆ—å·
+ R10 = NUMBER_OF_SLOTS       ; æ§½æ€»æ•°
+ R11 = NUMBER_OF_SLOTS       ; æ§½æ€»æ•°
 
  STOPRE
- MESSAGE_TEXT="ÊäÈë²ÎÊý,°´Ñ­»·Æô¶¯¿ªÊ¼¼Ó¹¤."
+ MESSAGE_TEXT="è¾“å…¥å‚æ•°,æŒ‰å¾ªçŽ¯å¯åŠ¨å¼€å§‹åŠ å·¥."
  MSG(MESSAGE_TEXT)
  M00
  STOPRE
 
 ;***START OF BROACHING***
  G54 G94                          ;variable zero offset, feed motion in mm/min
- TRANS Y=R20 Z=R21 A=R22 C=R23 B=R24    ;ÁãµãÆ«ÖÃ
+ TRANS Y=R20 Z=R21 A=R22 C=R23 B=R24    ;é›¶ç‚¹åç½®
  FOR _I=R5 TO R8                  ;first cassette to last cassette  
      R5=_I R0=1                   ;R5=counting variable  I ,flag NC-programm=1
      G602                         ;block change at coarse exact stop
@@ -113,10 +113,10 @@ M17
 ;$PATH=/_N_CUS_DIR
 PROC GUDINI DISPLOF SBLOF
 ;***************************************************************
-;*  ±à    Ð´      :                                             
-;*  Ê±    ¼ä      :                                             
-;*  »ú´²±àºÅ      :                                             
-;*  Ãè    Êö      : ÓÃÓÚºº½­»ú´²ÎªÀèÃ÷¹«Ë¾¸ÄÔìÀ­´²µÄÀ­Ï÷¹ý³Ì¿ØÖÆ
+;*  ç¼–    å†™      :                                             
+;*  æ—¶    é—´      :                                             
+;*  æœºåºŠç¼–å·      :                                             
+;*  æ    è¿°      : ç”¨äºŽæ±‰æ±ŸæœºåºŠä¸ºé»Žæ˜Žå…¬å¸æ”¹é€ æ‹‰åºŠçš„æ‹‰å‰Šè¿‡ç¨‹æŽ§åˆ¶
 ;***************************************************************
 DEF INT _I
 DEF INT _K
