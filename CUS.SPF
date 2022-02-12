@@ -1,0 +1,147 @@
+%_N_BROACHING_SPF
+;$PATH=/_N_CUS_DIR
+PROC BROACHING DISPLOF
+;***************************************************************
+;*  编    写      :                                             
+;*  时    间      :                                             
+;*  机床编号      :                                             
+;*  描    述      : 用于汉江机床升级改造后济南拉床的拉削过程控制
+;***************************************************************
+ DEF INT _I                  ; 刀盒序列计数
+ DEF INT _J                  ; 榫槽数计数
+ DEF REAL _POSA              ; A轴位置
+ STOPRE                      ; 
+ IF R0==0                    ; 如果启动新程序(加工下一个零件)
+    R5=1                     ; 第一刀盒序列开始 
+    R7=1                     ; 第一槽开始
+ ENDIF
+ R8  = R240                  ; 序列号
+ R10 = NUMBER_OF_SLOTS       ; 槽总数
+ R11 = NUMBER_OF_SLOTS       ; 槽总数
+
+ STOPRE
+ MESSAGE_TEXT="输入参数,按循环启动开始加工."
+ MSG(MESSAGE_TEXT)
+ M00
+ STOPRE
+
+;***START OF BROACHING***
+ G54 G94                          ;variable zero offset, feed motion in mm/min
+ TRANS Y=R20 Z=R21 A=R22 C=R23 B=R24    ;零点偏置
+ FOR _I=R5 TO R8                  ;first cassette to last cassette  
+     R5=_I R0=1                   ;R5=counting variable  I ,flag NC-programm=1
+     G602                         ;block change at coarse exact stop
+     G0 Z0                        ;rapid traverse movement
+     M56                          ;Z axis in rear position
+     G0 X0                        ;rapid traverse movement
+     M54                          ;ram in right position
+     M9                           ;coolant off
+     M47                          ;brushes off
+     R351=CASSETTE[_I]            ;R351 is new cassette
+     STOPRE
+     IF $A_DBW[22]<>R351          ;new cassette            
+        CHANGE_CASSETTE           ;call program
+     ENDIF  
+     G4F1
+     SET_CONSTANTS                ;call program
+     STOPRE   
+     G0 Y=R13+R40                 ;position of Y axis
+     G0 C=R14                     ;position of C axis
+     G0 B=R12                     ;position of B axis
+     G4F1                         ;time 1s
+     R2=R7                        ;R2 is first slot
+     STOPRE
+     FOR _J=R7 TO R10             ;first slot to last slot
+        R7=_J                     ;R6=counting variable J
+        STOPRE
+        R30=(360/NUMBER_OF_SLOTS)      ;division for current slot
+        R30=R30*_J        
+        STOPRE
+        R30=R30-(360/NUMBER_OF_SLOTS)  ;division angle - one division, start angle 0 degrees
+        STOPRE
+        G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000 
+        M54                        ;ram in right position 
+        G601                       ;block change at fine exact stop
+        STOPRE
+        R29=Z_POS[_I]              ;position of Z axis
+        STOPRE
+        R29=R29+R41                ;position of Z axis + correction Z indexer
+        STOPRE
+        M8                          ;coolant on
+        G0 Z=R29                    ;Z axis to position
+        IF $A_IN[1]==1
+           MESSAGE_TEXT="STOP BEFORE BROACHING - FOLLOW UP WITH NC-START"
+           MSG(MESSAGE_TEXT)
+           M00
+        ENDIF
+        MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
+        MSG(MESSAGE_TEXT)
+        STOPRE
+        M46                         ;brushes on
+        M8                          ;coolant on
+        G602                           ;block change at coarse exact stop
+        IF (X_POS_SPEED_CHANGE[_I]<X_POS_TOOL_START[_I]) AND (X_POS_SPEED_CHANGE[_I]>X_POS_TOOL_END[_I]) AND (SPEED_ROUGHING[_I]<>SPEED_FINISHING[_I])
+           G1 G64 X=X_POS_SPEED_CHANGE[_I]+100 F=SPEED_ROUGHING[_I]
+           G1 FLIN G64 X=X_POS_SPEED_CHANGE[_I] F=SPEED_FINISHING[_I]
+        ENDIF
+        G1 FNORM X=X_POS_TOOL_END[_I] F=SPEED_FINISHING[_I]   ;broaching
+        M55                        ;ram in left position 
+        G0 Z=Z_POS[_I]+Z_POS_RETURN_X_AXE    ;position Z axis during X axis return
+        M56                        ;Z axis in rear position
+        STOPRE
+     ENDFOR
+     STOPRE
+     IF R7==R10               ;if current slot = last slot
+        R7=R2                 ;first slot is R2
+     ENDIF
+     IF R10==R11              ;if last slot = total amount of slots
+        R7=1                  ;first slot = 1
+     ENDIF
+ ENDFOR
+ R0=0                         ;flag NC-programm=0   
+ G0 Z0                        ;rapid traverse movement
+ G1 POS[X]=0 FA[X]=60000
+ M54                          ;ram in right position
+ M9                           ;coolant off
+ M47                          ;brushes off
+ G0 B0
+; G0 C90                      ;rapid traverse movement
+M17
+
+
+%_N_GUDINI_SPF
+;$PATH=/_N_CUS_DIR
+PROC GUDINI DISPLOF SBLOF
+;***************************************************************
+;*  编    写      :                                             
+;*  时    间      :                                             
+;*  机床编号      :                                             
+;*  描    述      : 用于汉江机床为黎明公司改造拉床的拉削过程控制
+;***************************************************************
+DEF INT _I
+DEF INT _K
+STOPRE
+
+;*** Initialisation of  GUDs **********************************
+;***************************************************************
+
+;*** General information**********************
+
+Z_POS_RETURN_X_AXE         = 0    ;position axe Z during move back axe X 
+A_Pos                      = 0    ;position of indexing table
+NUMBER_OF_SLOTS            = 0    ;number of slots
+
+FOR _I=1 TO 2
+   CASSETTE[_I]               = 0    ; CASSETTE
+   RETURN_SPEED[_I]           = 0    ; RETURN SPEED 
+   X_POS_TOOL_START[_I]       = 0    ; X POSITION TOOL START
+   X_POS_TOOL_END[_I]         = 0    ; X POSITION TOOL END
+   X_POS_SPEED_CHANGE[_I]     = 0    ; X POSITION SPEED CHANGE
+   SPEED_ROUGHING[_I]         = 0    ; BROACHING SPEED FOR ROUGHING
+   SPEED_FINISHING[_I]        = 0    ; BROACHING SPEED FOR FINISHING
+   Z_POS[_I]                  = 0    ; Z POSITION BROACHING
+ENDFOR
+
+M17
+
+

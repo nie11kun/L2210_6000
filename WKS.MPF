@@ -1,0 +1,65 @@
+%_N_NO_1_WORKPIECE_MPF
+;$PATH=/_N_WKS_DIR/_N_NO_1_WORKPIECE_WPD
+;***************************************************************
+GUDINI ;********************************************************
+;***************************************************************
+;*  编    写      :                                             
+;*  时    间      :                                             
+;*  机床编号      :                                             
+;*  描    述      : 用于汉江机床升级改造后济南拉床的拉削过程控制
+;*  更    改      : 
+;***************************************************************
+MESSAGE_TEXT="ENTER PARAMETER FOR CASSETTE SEQUENCE AND SELECT COUPON OR DISC . FOLLOW UP WITH NC-START."
+MSG(MESSAGE_TEXT)
+M50
+M00
+STOPRE
+
+;*** General information**********************
+NUMBER_OF_SLOTS           = 102   ;total number of slots 
+Z_POS_RETURN_X_AXE        =  50   ;pos. axe Z during backstroke axe X
+R331                      = 455   ;size of the indexer   
+STOPRE
+
+IF R4==1  ;dates for COUPON
+    NUMBER_OF_SLOTS       =   1   ;total number of slots
+    R12                   =   0   ;pos axe B (konus) always zero    
+    R13                   =   0   ;pos axe Y (elevator) always zero
+    R14                   =   0   ;pos axe C (boat) always zero
+ENDIF 
+
+IF R4==2  ;dates for DISC
+    R12                   =  0      ;pos axe B (konus) 
+    R13                   =  1.99   ;pos axe Y (elevator)   
+    R14                   =  17      ;pos axe C (boat)
+ENDIF 
+
+IF (R221>0)                                ;if cassette 1 > 0
+    CASSETTE[1]           =   R221     ;cassette
+    Z_POS[1]              =   -290.1   ;pos in-out table axe Z first cassette
+    X_POS_TOOL_START[1]   =      0     ;pos tool start first cassette
+    X_POS_TOOL_END[1]     = - 6000     ;pos tool end first cassette
+    X_POS_SPEED_CHANGE[1] = - 5000     ;pos speed change first cassette
+    SPEED_ROUGHING[1]     =   3000     ;speed roughing first cassette
+    SPEED_FINISHING[1]    =   3000     ;speed finishing first cassette
+    RETURN_SPEED[1]       =  60000     ;return speed axe X first cassette 
+    R240=1                                 ;number of cassettes
+ENDIF
+
+IF (R222>0)                                ;if cassette 2 > 0
+    CASSETTE[2]           =      0     ;cassette
+    Z_POS[2]              =      0     ;pos in-out table axe Z second cassette
+    X_POS_TOOL_START[2]   =      0     ;pos tool start second cassette
+    X_POS_TOOL_END[2]     =      0     ;pos tool end second cassette
+    X_POS_SPEED_CHANGE[2] =      0     ;pos speed change second cassette
+    SPEED_ROUGHING[2]     =      0     ;speed roughing second cassette
+    SPEED_FINISHING[2]    =      0     ;speed finishing second cassette
+    RETURN_SPEED[2]       =      0     ;return speed axe X second cassette 
+    R240=2                             ;number of cassettes
+ENDIF
+
+
+;***************************************************************
+BROACHING;***************************************************
+;***************************************************************
+M30

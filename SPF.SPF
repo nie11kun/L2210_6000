@@ -1,0 +1,37 @@
+%_N_SET_CONSTANTS_SPF
+;$PATH=/_N_SPF_DIR
+ PROC SET_CONSTANTS DISPLOF SBLOF  ;program is not displayed 
+;***************************************************************
+;*  Author        : KONRAD, KM                                   
+;*  Prepared      : 09.10.06                                    
+;*  Kom.          : 00986                                                                              
+;*  Description: broaching process control for  Hoffmann        
+;***************************************************************
+
+;ADJUSTMENT INDEXER Y-DIRECTION
+R461=0.00        ;INDEXER 355 reference indexer
+R462=-0.04       ;INDEXER 455
+R463=0.01        ;INDEXER 800
+
+;ADJUSTMENT INDEXER Z-DIRECTION
+R471=0.00        ;INDEXER 355 reference indexer
+R472=-0.01       ;INDEXER 455
+R473=0.02        ;INDEXER 800
+
+IF R331==355     ;indexer 355 reference indexer
+   R40=R461      ;ADJUSTMENT INDEXER Y-DIRECTION
+   R41=R471      ;ADJUSTMENT INDEXER Z-DIRECTION
+ENDIF
+    
+IF R331==455     ;indexer 455
+   R40=R462      ;ADJUSTMENT INDEXER Y-DIRECTION
+   R41=R472      ;ADJUSTMENT INDEXER Z-DIRECTION
+ENDIF
+
+IF R331==800     ;indexer 800 
+   R40=R463      ;ADJUSTMENT INDEXER Y-DIRECTION
+   R41=R473      ;ADJUSTMENT INDEXER Z-DIRECTION
+ENDIF
+
+M17
+     
