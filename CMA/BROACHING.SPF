@@ -36,6 +36,8 @@ PROC BROACHING DISPLOF
      M47                          ;brushes off  清洁关
      R351=CASSETTE[_I]            ;R351 is new cassette   当前工序调用刀库号
 
+   IF R351==0 GOTOF ABORT_CYCLE;本工序为0，跳出
+
    IF R351==1;调用刀库号为1
       R50=R51;刀库1 y磨削位置
    ELSE
@@ -91,6 +93,9 @@ PROC BROACHING DISPLOF
      IF R10==R11              ;if last slot = total amount of slots 终止齿等于总齿数
         R7=1                  ;first slot = 1 起始齿赋值为第一齿
      ENDIF
+
+   ABORT_CYCLE:
+   STOPRE
  ENDFOR
 
  R0=0                         ;flag NC-programm=0    程序结束标记为0
