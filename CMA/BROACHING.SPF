@@ -29,7 +29,6 @@ PROC BROACHING DISPLOF
 
  FOR _I=R5 TO R8                  ;first cassette to last cassette   当前工序到最后一个工序
      R5=_I R0=1                   ;R5=counting variable  I ,flag NC-programm=1 当前工序号赋值  程序启动中标记 R0=1
-     G602                         ;block change at coarse exact stop   调用固定循环
      G1 Z0 F=3000                      ;rapid traverse movement  z回到零位
      G1 X0 F=6000                      ;rapid traverse movement  x回到零位
      M9                           ;coolant off 冷却关
@@ -76,7 +75,6 @@ PROC BROACHING DISPLOF
         STOPRE
         M46                         ;brushes on  切削清洁开
         M8                          ;coolant on 冷却开
-        G602                           ;block change at coarse exact stop
         IF (X_POS_SPEED_CHANGE[_I]<X_POS_TOOL_START[_I]) AND (X_POS_SPEED_CHANGE[_I]>X_POS_TOOL_END[_I]) AND (SPEED_ROUGHING[_I]<>SPEED_FINISHING[_I]); 如果x变速位置在加工起始结束之间，以及粗磨速度不等于精磨速度
            G1 G64 X=X_POS_SPEED_CHANGE[_I]+100 F=SPEED_ROUGHING[_I]; 粗磨到变速位置前100mm
            G1 FLIN G64 X=X_POS_SPEED_CHANGE[_I] F=SPEED_FINISHING[_I]; 精磨到变速位置
