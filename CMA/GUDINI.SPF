@@ -1,0 +1,33 @@
+PROC GUDINI DISPLOF SBLOF
+;***************************************************************
+;*  编    写      :                                             
+;*  时    间      :                                             
+;*  机床编号      :                                             
+;*  描    述      : 用于汉江机床为黎明公司改造拉床的拉削过程控制
+;***************************************************************
+DEF INT _I
+DEF INT _K
+STOPRE
+
+;*** Initialisation of  GUDs **********************************
+;***************************************************************
+
+;*** General information**********************
+
+Z_POS_RETURN_X_AXE         = 0    ;position axe Z during move back axe X 
+A_Pos                      = 0    ;position of indexing table
+NUMBER_OF_SLOTS            = 0    ;number of slots
+
+FOR _I=1 TO 2
+   CASSETTE[_I]               = 0    ; CASSETTE
+   RETURN_SPEED[_I]           = 0    ; RETURN SPEED 
+   X_POS_TOOL_START[_I]       = 0    ; X POSITION TOOL START
+   X_POS_TOOL_END[_I]         = 0    ; X POSITION TOOL END
+   X_POS_SPEED_CHANGE[_I]     = 0    ; X POSITION SPEED CHANGE
+   SPEED_ROUGHING[_I]         = 0    ; BROACHING SPEED FOR ROUGHING
+   SPEED_FINISHING[_I]        = 0    ; BROACHING SPEED FOR FINISHING
+   Z_POS[_I]                  = 0    ; Z POSITION BROACHING
+ENDFOR
+
+M17
+

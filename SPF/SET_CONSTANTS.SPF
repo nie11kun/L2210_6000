@@ -1,5 +1,3 @@
-%_N_SET_CONSTANTS_SPF
-;$PATH=/_N_SPF_DIR
  PROC SET_CONSTANTS DISPLOF SBLOF  ;program is not displayed 
 ;***************************************************************
 ;*  Author        : KONRAD, KM                                   
