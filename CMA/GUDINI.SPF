@@ -14,19 +14,19 @@ STOPRE
 
 ;*** General information**********************
 
-Z_POS_RETURN_X_AXE         = 0    ;position axe Z during move back axe X 
-A_Pos                      = 0    ;position of indexing table
-NUMBER_OF_SLOTS            = 0    ;number of slots
+Z_POS_RETURN_X_AXE         = 0    ;position axe Z during move back axe X    z安全距离清零
+A_POS                      = 0    ;position of indexing table            A起始位置清零
+NUMBER_OF_SLOTS            = 0    ;number of slots     总槽数清零
 
 FOR _I=1 TO 2
-   CASSETTE[_I]               = 0    ; CASSETTE
-   RETURN_SPEED[_I]           = 0    ; RETURN SPEED 
-   X_POS_TOOL_START[_I]       = 0    ; X POSITION TOOL START
-   X_POS_TOOL_END[_I]         = 0    ; X POSITION TOOL END
-   X_POS_SPEED_CHANGE[_I]     = 0    ; X POSITION SPEED CHANGE
-   SPEED_ROUGHING[_I]         = 0    ; BROACHING SPEED FOR ROUGHING
-   SPEED_FINISHING[_I]        = 0    ; BROACHING SPEED FOR FINISHING
-   Z_POS[_I]                  = 0    ; Z POSITION BROACHING
+   CASSETTE[_I]               = 0    ; CASSETTE  调用刀库号清零
+   RETURN_SPEED[_I]           = 0    ; RETURN SPEED   回程速度清零
+   X_POS_TOOL_START[_I]       = 0    ; X POSITION TOOL START  x起始位置清零
+   X_POS_TOOL_END[_I]         = 0    ; X POSITION TOOL END     x结束位置清零
+   X_POS_SPEED_CHANGE[_I]     = 0    ; X POSITION SPEED CHANGE   x变速位置清零
+   SPEED_ROUGHING[_I]         = 0    ; BROACHING SPEED FOR ROUGHING    粗磨速度清零
+   SPEED_FINISHING[_I]        = 0    ; BROACHING SPEED FOR FINISHING   精磨速度清零
+   Z_POS[_I]                  = 0    ; Z POSITION BROACHING      z轴磨削位置清零
 ENDFOR
 
 M17
