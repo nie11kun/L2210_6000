@@ -4,16 +4,16 @@
 ;*  Kom.          : 00986                                                                                                                                            
 ;*  Description   : broaching process control for Hoffmann       
 ;***************************************************************
- DEF CHAN REAL X_POS_TOOL_START[3]          ; X POSITION TOOL START
- DEF CHAN REAL X_POS_TOOL_END[3]            ; X POSITION TOOL END
- DEF CHAN REAL X_POS_SPEED_CHANGE[3]        ; X POSITION CHANGE SPEED
- DEF CHAN REAL RETURN_SPEED[3]              ; RETURN SPEED 
- DEF CHAN REAL SPEED_ROUGHING[3]            ; BROACHING SPEED ROUGHING      
- DEF CHAN REAL SPEED_FINISHING[3]           ; BROACHING SPEED FINISHING
- DEF CHAN REAL Z_POS[3]                     ; Z POSITION BROACHING
- DEF CHAN REAL CASSETTE[3]                  ; CASSETTE
- DEF CHAN REAL Z_POS_RETURN_X_AXE           ; Z POSITION X-AXE RETURN
- DEF CHAN REAL A_POS                        ; POSITION INDEXING TABLE
- DEF CHAN REAL NUMBER_OF_SLOTS              ; NUMBER OF SLOTS
- DEF CHAN STRING[124] MESSAGE_TEXT          ; MESSAGE TEXT
+ DEF NCK REAL X_POS_TOOL_START[3]          ; X POSITION TOOL START
+ DEF NCK REAL X_POS_TOOL_END[3]            ; X POSITION TOOL END
+ DEF NCK REAL X_POS_SPEED_CHANGE[3]        ; X POSITION CHANGE SPEED
+ DEF NCK REAL RETURN_SPEED[3]              ; RETURN SPEED 
+ DEF NCK REAL SPEED_ROUGHING[3]            ; BROACHING SPEED ROUGHING      
+ DEF NCK REAL SPEED_FINISHING[3]           ; BROACHING SPEED FINISHING
+ DEF NCK REAL Z_POS[3]                     ; Z POSITION BROACHING
+ DEF NCK REAL CASSETTE[3]                  ; CASSETTE
+ DEF NCK REAL Z_POS_RETURN_X_AXE           ; Z POSITION X-AXE RETURN
+ DEF NCK REAL A_POS                        ; POSITION INDEXING TABLE
+ DEF NCK REAL NUMBER_OF_SLOTS              ; NUMBER OF SLOTS
+ DEF NCK STRING[124] MESSAGE_TEXT          ; MESSAGE TEXT
  M30
