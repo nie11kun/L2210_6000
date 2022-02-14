@@ -8,7 +8,7 @@ DEF INT _I
 DEF INT _K
 
 Z_POS_RETURN_X_AXE            = 0    ;position axe Z during move back axe X    z安全距离清零
-A_POS                         = 0    ;position of indexing table            A起始位置清零
+A_POS                         = 0    ;position of indexing table
 NUMBER_OF_SLOTS               = 0    ;number of slots     总槽数清零
 
 FOR _I=1 TO 2
