@@ -8,7 +8,7 @@ PROC BROACHING DISPLOF
  DEF INT _I                  ; 刀盒序列计数
  DEF INT _J                  ; 槽数计数
  DEF REAL _POSA              ; A轴位置
- STOPRE                      ; 
+
  IF R0==0                    ; 程序启动中标记(正常结束为0，启动中为1)(加工下一个零件)
     R5=1                     ; 起始工序1开始 
     R7=1                     ; 当前加工槽为1
@@ -17,98 +17,113 @@ PROC BROACHING DISPLOF
  R10 = NUMBER_OF_SLOTS       ; 槽总数
  R11 = NUMBER_OF_SLOTS       ; 槽总数
 
-R50=X_POS_TOOL_START[1];界面参数传递
+R50=X_POS_TOOL_START[1]      ;界面参数传递
 R51=X_POS_TOOL_END[1]
 R52=X_POS_SPEED_CHANGE[1]
 R60=X_POS_TOOL_START[2]
 R61=X_POS_TOOL_END[2]
 R62=X_POS_SPEED_CHANGE[2]
 
- STOPRE
- MESSAGE_TEXT="输入参数,按循环启动开始加工."
- MSG(MESSAGE_TEXT)
- M00
- STOPRE
+MESSAGE_TEXT="输入参数,按循环启动开始加工."
+MSG(MESSAGE_TEXT)
+M00
+STOPRE
 
-;***START OF BROACHING***
- G54 G94 G90                         ;variable zero offset, feed motion in mm/min 线性进给率，零点偏置清零
- TRANS Y=R20 Z=R21 A=R22 C=R23    ;界面补偿零点偏置
+G54 G94 G90                       ;线性进给率，零点偏置清零
+TRANS Y=R20 Z=R21 A=R22 C=R23     ;界面补偿零点偏置
 
- FOR _I=R5 TO R8                  ;first cassette to last cassette   当前工序到最后一个工序
-     R5=_I R0=1                   ;R5=counting variable  I ,flag NC-programm=1 当前工序号赋值  程序启动中标记 R0=1
-     G1 Z0 F=3000                      ;rapid traverse movement  z回到零位
-     G1 X0 F=6000                      ;rapid traverse movement  x回到零位
-     M9                           ;coolant off 冷却关
-     M21                          ;brushes off  清洁关
-     R351=CASSETTE[_I]            ;R351 is new cassette   当前工序调用刀库号
+FOR _I=R5 TO R8                  ;当前工序到最后一个工序
+   R5=_I R0=1                   ;当前工序号赋值，程序启动中标记 R0=1
 
-   IF R351==0 GOTOF ABORT_CYCLE;本工序为0，跳出
+   M37 M76 M94                  ;Z C Y 轴松开
+   G4 F2
 
-   IF R351==1;调用刀库号为1
-      R70=R71;刀库1 y磨削位置
+   G1 Z0 F=3000                 ;z回到零位
+   G1 X0 F=6000                 ;x回到零位
+
+   M9                           ;冷却关
+   M21                          ;清洁关
+
+   R351=CASSETTE[_I]            ;当前工序调用刀库号
+
+   IF R351==0 GOTOF ABORT_CYCLE ;本工序为0，跳出
+
+   IF R351==1                   ;调用刀库号为1
+      R70=R71                   ;刀库1 y磨削位置
    ELSE
-      R70=R72;刀库2 y磨削位置
+      R70=R72                   ;刀库2 y磨削位置
    ENDIF
 
-     STOPRE
-     G4F1
-     SET_CONSTANTS                ;call program 坐标微调子程序
-     STOPRE   
-     G1 Y=R70+R13+R40 F=2000               ;position of Y axis 工件程序中的偏置和 set constant 中的偏置整合
-     G1 C=R14 F=1000                  ;position of C axis c轴磨削位 工件程序中的偏置
-     G4F1                         ;time 1s
-     R2=R7                        ;R2 is first slot  起始加工槽
-     STOPRE
+   SET_CONSTANTS                ;坐标微调子程序
+   STOPRE
 
-     FOR _J=R7 TO R10             ;first slot to last slot 起始槽到最终槽
-        R7=_J                     ;R7=counting variable J 当前磨削齿
-        STOPRE
-        R30=(360/NUMBER_OF_SLOTS)      ;division for current slot
-        R30=R30*_J        
-        STOPRE
-        R30=R30-(360/NUMBER_OF_SLOTS)  ;division angle - one division, start angle 0 degrees  当前齿角度
-        STOPRE
-        G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000  x轴A轴移动到起始位置
-        G601                       ;block change at fine exact stop
-        STOPRE
-        R29=Z_POS[_I]              ;position of Z axis  z轴起始位置
-        STOPRE
-        R29=R29+R41                ;position of Z axis + correction Z indexer，set constant 中的偏置整合
-        STOPRE
-        M8                          ;coolant on 冷却开
-        G1 Z=R29 F=2000                   ;Z axis to position  移动到z起始位置
-        MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
-        MSG(MESSAGE_TEXT)
-        STOPRE
-        M20                         ;brushes on  切削清洁开
-        M8                          ;coolant on 冷却开
-        M49                          ;排削器启动
-        IF (X_POS_SPEED_CHANGE[_I]<X_POS_TOOL_START[_I]) AND (X_POS_SPEED_CHANGE[_I]>X_POS_TOOL_END[_I]) AND (SPEED_ROUGHING[_I]<>SPEED_FINISHING[_I]); 如果x变速位置在加工起始结束之间，以及粗磨速度不等于精磨速度
-           G1 G64 X=X_POS_SPEED_CHANGE[_I]+100 F=SPEED_ROUGHING[_I]; 粗磨到变速位置前100mm
-           G1 FLIN G64 X=X_POS_SPEED_CHANGE[_I] F=SPEED_FINISHING[_I]; 精磨到变速位置
-        ENDIF
-        G1 FNORM X=X_POS_TOOL_END[_I] F=SPEED_FINISHING[_I]   ;broaching 磨削到结束位置
-        G1 Z=Z_POS[_I]+Z_POS_RETURN_X_AXE F=2000    ;position Z axis during X axis return z回退到安全位置
-        STOPRE
-     ENDFOR
+   G1 Y=R70+R13+R40 F=2000               ;工件程序中的偏置和 set constant 中的偏置整合
+   G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
 
-     STOPRE
-     IF R7==R10               ;if current slot = last slot 当前齿等于终止齿
-        R7=R2                 ;first slot is R2 当前齿赋值起始加工齿
-     ENDIF
-     IF R10==R11              ;if last slot = total amount of slots 终止齿等于总齿数
-        R7=1                  ;first slot = 1 起始齿赋值为第一齿
-     ENDIF
+   M75 M95                               ;C Y 轴夹紧 
+   G4F2
+
+   R2=R7                                 ;起始加工槽
+   STOPRE
+
+   FOR _J=R7 TO R10                      ;起始槽到最终槽
+      R7=_J                              ;当前磨削齿
+
+      R30=(360/NUMBER_OF_SLOTS)
+      R30=R30*_J        
+      R30=R30-(360/NUMBER_OF_SLOTS)      ;当前齿角度
+
+      M35                                ;A轴松开
+      G4 F2
+      G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000             ;x轴A轴移动到起始位置
+      M36                                ;A轴夹紧
+      G4 F2
+
+      STOPRE
+      R29=Z_POS[_I]                      ;z轴起始位置
+      R29=R29+R41                        ;set constant 中的偏置整合
+
+      M8                                 ;冷却开
+      M20                                ;切削清洁开
+      M49                                ;排削器启动
+
+      G1 Z=R29 F=2000                   ;移动到z起始位置
+      M46                               ;Z轴夹紧
+      G4 F2
+
+      MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
+      MSG(MESSAGE_TEXT)
+
+      IF (X_POS_SPEED_CHANGE[_I]<X_POS_TOOL_START[_I]) AND (X_POS_SPEED_CHANGE[_I]>X_POS_TOOL_END[_I]) AND (SPEED_ROUGHING[_I]<>SPEED_FINISHING[_I])     ;如果x变速位置在加工起始结束之间，以及粗磨速度不等于精磨速度
+         G1 G64 X=X_POS_SPEED_CHANGE[_I]+100 F=SPEED_ROUGHING[_I]       ;粗磨到变速位置前100mm
+         G1 FLIN G64 X=X_POS_SPEED_CHANGE[_I] F=SPEED_FINISHING[_I]     ;精磨到变速位置
+      ENDIF
+      G1 FNORM X=X_POS_TOOL_END[_I] F=SPEED_FINISHING[_I]               ;磨削到结束位置
+
+      M37                                                               ;Z轴松开
+      G4 F2
+      G1 Z=Z_POS[_I]+Z_POS_RETURN_X_AXE F=2000                          ;z回退到安全位置
+      STOPRE
+   ENDFOR
+
+   STOPRE
+   IF R7==R10               ;当前齿等于终止齿
+      R7=R2                 ;当前齿赋值起始加工齿
+   ENDIF
+   IF R10==R11              ;终止齿等于总齿数
+      R7=1                  ;起始齿赋值为第一齿
+   ENDIF
 
    ABORT_CYCLE:
    STOPRE
- ENDFOR
+ENDFOR
 
- R0=0                         ;flag NC-programm=0    程序结束标记为0
- G1 Z0 F=2000                       ;rapid traverse movement z轴回到0位
- G1 POS[X]=0 FA[X]=60000      ;                         x轴回零
- M9                           ;coolant off 冷却关
- M21                          ;brushes off   切削清洁关
+ R0=0                        ;程序结束标记为0
+ G1 Z0 F=2000                ;z轴回到0位
+ G1 POS[X]=0 FA[X]=10000     ;x轴回零
+ M9                          ;冷却关
+ M21                         ;切削清洁关
+ M46 M75 M95 M36             ;Z C Y A 轴夹紧 
 
 M17
 
