@@ -96,9 +96,9 @@ FOR _I=R5 TO R8                  ;当前工序到最后一个工序
 
       IF (X_POS_SPEED_CHANGE[_I]<X_POS_TOOL_START[_I]) AND (X_POS_SPEED_CHANGE[_I]>X_POS_TOOL_END[_I]) AND (SPEED_ROUGHING[_I]<>SPEED_FINISHING[_I])     ;如果x变速位置在加工起始结束之间，以及粗磨速度不等于精磨速度
          G1 G64 X=X_POS_SPEED_CHANGE[_I]+100 F=SPEED_ROUGHING[_I]       ;粗磨到变速位置前100mm
-         G1 FLIN G64 X=X_POS_SPEED_CHANGE[_I] F=SPEED_FINISHING[_I]     ;精磨到变速位置
+         G1 FLIN G64 X=X_POS_SPEED_CHANGE[_I] F=SPEED_FINISHING[_I]     ;精磨到变速位置，FLIN 线性进给速度，此段运行过程中从之前速度线性过渡到此段定义的速度，到达终点时刚好达到所定义的速度
       ENDIF
-      G1 FNORM X=X_POS_TOOL_END[_I] F=SPEED_FINISHING[_I]               ;磨削到结束位置
+      G1 FNORM X=X_POS_TOOL_END[_I] F=SPEED_FINISHING[_I]               ;磨削到结束位置，FNORM 恒定进给速度
 
       M37                                                               ;Z轴松开
       G4 F2
