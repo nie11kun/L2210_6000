@@ -8,6 +8,7 @@ GUDINI ;初始化参数********************************************************
 ;*  更    改      : 
 ;***************************************************************
 MESSAGE_TEXT="ENTER PARAMETER FOR CASSETTE SEQUENCE AND SELECT COUPON OR DISC . FOLLOW UP WITH NC-START."
+;MESSAGE_TEXT="输入刀盒参数及加工模式，然后按 NC START 启动程序"
 MSG(MESSAGE_TEXT)
 M00
 STOPRE
@@ -25,31 +26,31 @@ IF R4==1  ;dates for COUPON   试加工一个槽功能
 ENDIF 
 
 IF R4==2  ;dates for DISC    正式加工所有槽
-    R13                   =  1.99   ;pos axe Y (elevator)   
+    R13                   =  2       ;pos axe Y (elevator)   
     R14                   =  17      ;pos axe C (boat)
 ENDIF 
 
 IF (R221>0)                                ;if cassette 1 > 0  第一工序调用刀库号，0为不调用
     CASSETTE[1]           =   R221     ;cassette  调用刀库号
-    Z_POS[1]              =   -290.1   ;pos in-out table axe Z first cassette z轴磨削位置
+    Z_POS[1]              =   -200     ;pos in-out table axe Z first cassette z轴磨削位置
     X_POS_TOOL_START[1]   =      0     ;pos tool start first cassette     x轴起始磨削位置
     X_POS_TOOL_END[1]     = - 6000     ;pos tool end first cassette       x轴终止磨削位置
     X_POS_SPEED_CHANGE[1] = - 5000     ;pos speed change first cassette   x轴变速位置
     SPEED_ROUGHING[1]     =   3000     ;speed roughing first cassette     粗磨速度
-    SPEED_FINISHING[1]    =   3000     ;speed finishing first cassette    精磨速度
-    RETURN_SPEED[1]       =  60000     ;return speed axe X first cassette x轴回程速度
+    SPEED_FINISHING[1]    =   2000     ;speed finishing first cassette    精磨速度
+    RETURN_SPEED[1]       =   6000     ;return speed axe X first cassette x轴回程速度
     R240=1                                 ;number of cassettes           调用第一工序
 ENDIF
 
 IF (R222>0)                                ;if cassette 2 > 0   第二工序调用刀库号，0为不调用
     CASSETTE[2]           =      R222     ;cassette
-    Z_POS[2]              =      0     ;pos in-out table axe Z second cassette
-    X_POS_TOOL_START[2]   =      0     ;pos tool start second cassette
-    X_POS_TOOL_END[2]     =      0     ;pos tool end second cassette
-    X_POS_SPEED_CHANGE[2] =      0     ;pos speed change second cassette
-    SPEED_ROUGHING[2]     =      0     ;speed roughing second cassette
-    SPEED_FINISHING[2]    =      0     ;speed finishing second cassette
-    RETURN_SPEED[2]       =      0     ;return speed axe X second cassette 
+    Z_POS[2]              =      -250     ;pos in-out table axe Z second cassette
+    X_POS_TOOL_START[2]   =      -200     ;pos tool start second cassette
+    X_POS_TOOL_END[2]     =      -7000     ;pos tool end second cassette
+    X_POS_SPEED_CHANGE[2] =      -4000     ;pos speed change second cassette
+    SPEED_ROUGHING[2]     =      4000     ;speed roughing second cassette
+    SPEED_FINISHING[2]    =      2000     ;speed finishing second cassette
+    RETURN_SPEED[2]       =      60000     ;return speed axe X second cassette 
     R240=2                             ;number of cassettes   调用第二工序
 ENDIF
 

@@ -5,7 +5,6 @@ PROC GUDINI DISPLOF SBLOF
 ;*  机床编号      :                                             
 ;*  描    述      : 用于汉江机床为黎明公司改造拉床的拉削过程控制
 DEF INT _I
-DEF INT _K
 
 Z_POS_RETURN_X_AXE            = 0    ;position axe Z during move back axe X    z安全距离清零
 A_POS                         = 0    ;position of indexing table
