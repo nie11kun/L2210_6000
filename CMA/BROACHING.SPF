@@ -5,19 +5,19 @@ PROC BROACHING DISPLOF
 ;*  机床编号      :                                             
 ;*  描    述      : 用于汉江机床升级改造后济南拉床的拉削过程控制
 ;***************************************************************
- DEF INT _I                  ; 刀盒序列计数
- DEF INT _J                  ; 槽数计数
- DEF REAL _POSA              ; A轴位置
+DEF INT _I                  ; 刀盒序列计数
+DEF INT _J                  ; 槽数计数
+DEF REAL _POSA              ; A轴位置
 
- IF R0==0                    ; 程序启动中标记(正常结束为0，启动中为1)(加工下一个零件)
-    R5=1                     ; 起始工序1开始 
-    R7=1                     ; 当前加工槽为1
- ENDIF
- R8  = R240                  ; 设定调用工序赋值
- R10 = NUMBER_OF_SLOTS       ; 槽总数
- R11 = NUMBER_OF_SLOTS       ; 槽总数
+IF R0==0                    ; 程序启动中标记(正常结束为0，启动中为1)(加工下一个零件)
+   R5=1                     ; 起始工序1开始 
+   R7=1                     ; 当前加工槽为1
+ENDIF
+R8=R240                     ; 终止工序号赋值
+R10=NUMBER_OF_SLOTS         ; 磨削终止槽编号
+R11=NUMBER_OF_SLOTS         ; 槽总数
 
-R50=X_POS_TOOL_START[1]      ;界面参数传递
+R50=X_POS_TOOL_START[1]     ;界面参数传递
 R51=X_POS_TOOL_END[1]
 R52=X_POS_SPEED_CHANGE[1]
 R60=X_POS_TOOL_START[2]
@@ -29,10 +29,10 @@ MSG(MESSAGE_TEXT)
 M00
 STOPRE
 
-G54 G94 G90                       ;线性进给率，零点偏置清零
-TRANS Y=R20 Z=R21 A=R22 C=R23     ;界面补偿零点偏置
+G54 G94 G90                     ;线性进给率，零点偏置清零
+TRANS Y=R20 Z=R21 A=R22 C=R23   ;界面补偿零点偏置
 
-FOR _I=R5 TO R8                  ;当前工序到最后一个工序
+FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    R5=_I R0=1                   ;当前工序号赋值，程序启动中标记 R0=1
 
    M37 M76 M94                  ;Z C Y 轴松开
@@ -91,6 +91,7 @@ FOR _I=R5 TO R8                  ;当前工序到最后一个工序
       M46                               ;Z轴夹紧
       G4 F2
 
+      ;MESSAGE_TEXT="正在进行第 "<<R5<<" 序列,共 "<<R8<<" 序列; 正在加工第 "<<_J<<" 槽,共 "<<R10<<" 槽"
       MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
       MSG(MESSAGE_TEXT)
 
