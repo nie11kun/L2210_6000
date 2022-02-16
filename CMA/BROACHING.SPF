@@ -60,6 +60,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    G1 Y=R70+R13+R40 F=2000               ;工件程序中的偏置和 set constant 中的偏置整合
    G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
 
+   G4 F0.5
    M75 M95                               ;C Y 轴夹紧 
    G4F2
 
@@ -76,6 +77,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       M35                                ;A轴松开
       G4 F2
       G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000             ;x轴A轴移动到起始位置
+      G4 F0.5
       M36                                ;A轴夹紧
       G4 F2
 
@@ -88,6 +90,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       M49                                ;排削器启动
 
       G1 Z=R29 F=2000                   ;移动到z起始位置
+      G4 F0.5
       M46                               ;Z轴夹紧
       G4 F2
 
