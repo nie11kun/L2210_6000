@@ -34,10 +34,12 @@ TRANS Y=R20 Z=R21 A=R22 C=R23   ;界面补偿零点偏置
 FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    R5=_I R0=1                   ;当前工序号赋值，程序启动中标记 R0=1
 
-   M37 M76 M94                  ;Z C Y 轴松开
+   M37                          ;Z轴松开
    G4 F2
-
    G1 Z0 F=3000                 ;z回到零位
+   G4 F0.5
+   M46                          ;Z轴夹紧
+
    G1 X0 F=6000                 ;x回到零位
 
    M9                           ;冷却关
@@ -56,12 +58,17 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    SET_CONSTANTS                ;坐标微调子程序
    STOPRE
 
+   M94                                   ;Y 轴松开
+   G4 F2
    G1 Y=R70+R13+R40 F=2000               ;工件程序中的偏置和 set constant 中的偏置整合
-   G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
-
    G4 F0.5
-   M75 M95                               ;C Y 轴夹紧 
-   G4F2
+   M95                                   ;Y 轴夹紧
+
+   M76                                   ;C轴松开
+   G4 F2
+   G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
+   G4 F0.5
+   M75                                   ;C轴夹紧
 
    R2=R7                                 ;起始加工槽
    STOPRE
@@ -78,20 +85,21 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000             ;x轴A轴移动到起始位置
       G4 F0.5
       M36                                ;A轴夹紧
-      G4 F2
-
-      STOPRE
-      R29=Z_POS[_I]                      ;z轴起始位置
-      R29=R29+R41                        ;set constant 中的偏置整合
 
       M8                                 ;冷却开
       M20                                ;切削清洁开
       M49                                ;排削器启动
 
+      STOPRE
+      R29=Z_POS[_I]                      ;z轴起始位置
+      R29=R29+R41                        ;set constant 中的偏置整合
+
+      M37                               ;Z轴松开
+      G4 F2
       G1 Z=R29 F=2000                   ;移动到z起始位置
       G4 F0.5
       M46                               ;Z轴夹紧
-      G4 F2
+      G4 F1
 
       ;MESSAGE_TEXT="正在进行第 "<<R5<<" 序列,共 "<<R8<<" 序列; 正在加工第 "<<_J<<" 槽,共 "<<R10<<" 槽"
       MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
@@ -106,6 +114,9 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       M37                                                               ;Z轴松开
       G4 F2
       G1 Z=Z_POS[_I]+Z_POS_RETURN_X_AXE F=2000                          ;z回退到安全位置
+      G4 F0.5
+      M46                                                               ;Z轴夹紧
+      G4 F1
       STOPRE
    ENDFOR
 
@@ -121,12 +132,17 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    STOPRE
 ENDFOR
 
- R0=0                        ;程序结束标记为0
- G1 Z0 F=2000                ;z轴回到0位
- G1 POS[X]=0 FA[X]=10000     ;x轴回零
- M9                          ;冷却关
- M21                         ;切削清洁关
- M46 M75 M95 M36             ;Z C Y A 轴夹紧 
+R0=0                        ;程序结束标记为0
+
+M37                          ;Z轴松开
+G4 F2
+G1 Z0 F=2000                ;z轴回到0位
+
+G1 POS[X]=0 FA[X]=10000     ;x轴回零
+
+M9                          ;冷却关
+M21                         ;切削清洁关
+M46 M75 M95 M36             ;Z C Y A 轴夹紧 
 
 M17
 
