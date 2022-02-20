@@ -26,8 +26,8 @@ IF R4==1  ;dates for COUPON   试加工一个槽功能
 ENDIF 
 
 IF R4==2  ;dates for DISC    正式加工所有槽
-    R13                   =  2       ;pos axe Y (elevator)   
-    R14                   =  17      ;pos axe C (boat)
+    R13                   =  0       ;pos axe Y (elevator)   
+    R14                   =  0      ;pos axe C (boat)
 ENDIF 
 
 IF (R221>0)                                ;if cassette 1 > 0  第一工序调用刀库号，0为不调用

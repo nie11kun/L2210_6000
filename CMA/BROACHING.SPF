@@ -35,9 +35,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    R5=_I R0=1                   ;当前工序号赋值，程序启动中标记 R0=1
 
    M37                          ;Z轴松开
-   G4 F2
    G1 Z0 F=3000                 ;z回到零位
-   G4 F0.5
    M46                          ;Z轴夹紧
 
    G1 X0 F=6000                 ;x回到零位
@@ -59,15 +57,11 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    STOPRE
 
    M94                                   ;Y 轴松开
-   G4 F2
    G1 Y=R70+R13+R40 F=2000               ;工件程序中的偏置和 set constant 中的偏置整合
-   G4 F0.5
    M95                                   ;Y 轴夹紧
 
    M76                                   ;C轴松开
-   G4 F2
    G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
-   G4 F0.5
    M75                                   ;C轴夹紧
 
    R2=R7                                 ;起始加工槽
@@ -81,9 +75,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       R30=R30-(360/NUMBER_OF_SLOTS)      ;当前齿角度
 
       M35                                ;A轴松开
-      G4 F2
       G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000             ;x轴A轴移动到起始位置
-      G4 F0.5
       M36                                ;A轴夹紧
 
       M8                                 ;冷却开
@@ -95,9 +87,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       R29=R29+R41                        ;set constant 中的偏置整合
 
       M37                               ;Z轴松开
-      G4 F2
       G1 Z=R29 F=2000                   ;移动到z起始位置
-      G4 F0.5
       M46                               ;Z轴夹紧
       G4 F1
 
@@ -112,9 +102,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       G1 FNORM X=X_POS_TOOL_END[_I] F=SPEED_FINISHING[_I]               ;磨削到结束位置，FNORM 恒定进给速度
 
       M37                                                               ;Z轴松开
-      G4 F2
       G1 Z=Z_POS[_I]+Z_POS_RETURN_X_AXE F=2000                          ;z回退到安全位置
-      G4 F0.5
       M46                                                               ;Z轴夹紧
       G4 F1
       STOPRE
@@ -135,7 +123,6 @@ ENDFOR
 R0=0                        ;程序结束标记为0
 
 M37                          ;Z轴松开
-G4 F2
 G1 Z0 F=2000                ;z轴回到0位
 
 G1 POS[X]=0 FA[X]=10000     ;x轴回零
