@@ -40,7 +40,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
 
    STOPRE
    IF $AA_IM[X]<-3000                   ;当前位置距离零点3米以上
-      G1 FNORM X-2000 F=20000           ;x接近零位
+      G1 G64 FNORM X-2000 F=20000       ;x接近零位
       G1 FLIN X-1000 F=10000            ;x接近零位
       G1 FNORM X0 F=10000               ;x回到零位
    ELSE
@@ -81,7 +81,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
 
       STOPRE
       IF $AA_IM[X]-X_POS_TOOL_START[_I]<-3000                              ;当前位置在起点负向3米以上
-         G1 FNORM X=X_POS_TOOL_START[_I]-2000 F=RETURN_SPEED[_I]           ;x接近起点
+         G1 G64 FNORM X=X_POS_TOOL_START[_I]-2000 F=RETURN_SPEED[_I]       ;x接近起点
          G1 FLIN X=X_POS_TOOL_START[_I]-1000 F=10000                       ;x接近起点
          G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
       ELSE
@@ -144,7 +144,7 @@ M37                         ;Z轴松开
 G1 Z0 F=3000                ;z轴回到0位
 
 IF $AA_IM[X]<-3000                   ;当前位置距离零点3米以上
-   G1 FNORM X-2000 F=20000           ;x接近零位
+   G1 G64 FNORM X-2000 F=20000       ;x接近零位
    G1 FLIN X-1000 F=10000            ;x接近零位
    G1 FNORM X0 F=10000               ;x回到零位
 ELSE
