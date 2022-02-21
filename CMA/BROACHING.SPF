@@ -38,7 +38,14 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    G1 Z0 F=3000                 ;z回到零位
    M46                          ;Z轴夹紧
 
-   G1 X0 F=20000                ;x回到零位
+   STOPRE
+   IF $AA_IM[X]<-3000                   ;当前位置距离零点3米以上
+      G1 FNORM X-2000 F=20000           ;x接近零位
+      G1 FLIN X-1000 F=10000            ;x接近零位
+      G1 FNORM X0 F=10000               ;x回到零位
+   ELSE
+      G1 X0 F=10000                     ;x回到零位
+   ENDIF
 
    M9                           ;冷却关
    M21                          ;清洁关
@@ -60,9 +67,11 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    G1 Y=R70+R13+R40 F=2000               ;工件程序中的偏置和 set constant 中的偏置整合
    M95                                   ;Y 轴夹紧
 
-   M76                                   ;C轴松开
-   G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
-   M75                                   ;C轴夹紧
+   IF ABS($AA_IM[C]-R14)*1000>=1            ;c轴是否已经到位
+      M76                                   ;C轴松开
+      G1 C=R14 F=1000                       ;c轴磨削位 工件程序中的偏置
+      M75                                   ;C轴夹紧
+   ENDIF
 
    R2=R7                                 ;起始加工槽
    STOPRE
@@ -70,12 +79,21 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    FOR _J=R7 TO R10                      ;起始槽到最终槽
       R7=_J                              ;当前磨削齿
 
+      STOPRE
+      IF $AA_IM[X]-X_POS_TOOL_START[_I]<-3000                              ;当前位置在起点负向3米以上
+         G1 FNORM X=X_POS_TOOL_START[_I]-2000 F=RETURN_SPEED[_I]           ;x接近起点
+         G1 FLIN X=X_POS_TOOL_START[_I]-1000 F=10000                       ;x接近起点
+         G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
+      ELSE
+         G1 X=X_POS_TOOL_START[_I] F=10000                                 ;x回到起点
+      ENDIF
+
       R30=(360/NUMBER_OF_SLOTS)
       R30=R30*_J        
       R30=R30-(360/NUMBER_OF_SLOTS)      ;当前齿角度
 
       M35                                ;A轴松开
-      G1 POS[X]=X_POS_TOOL_START[_I] FA[X]=RETURN_SPEED[_I] POS[A]=ACP(R30) FA[A]=1000             ;x轴A轴移动到起始位置
+      G1 POS[A]=ACP(R30) FA[A]=500       ;A轴移动到起始位置
       M36                                ;A轴夹紧
 
       M8                                 ;冷却开
@@ -122,10 +140,16 @@ ENDFOR
 
 R0=0                        ;程序结束标记为0
 
-M37                          ;Z轴松开
+M37                         ;Z轴松开
 G1 Z0 F=3000                ;z轴回到0位
 
-G1 POS[X]=0 FA[X]=20000     ;x轴回零
+IF $AA_IM[X]<-3000                   ;当前位置距离零点3米以上
+   G1 FNORM X-2000 F=20000           ;x接近零位
+   G1 FLIN X-1000 F=10000            ;x接近零位
+   G1 FNORM X0 F=10000               ;x回到零位
+ELSE
+   G1 X0 F=10000                     ;x回到零位
+ENDIF
 
 M9                          ;冷却关
 M21                         ;切削清洁关
