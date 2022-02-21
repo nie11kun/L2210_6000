@@ -91,8 +91,8 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       M46                               ;Z轴夹紧
       G4 F1
 
-      ;MESSAGE_TEXT="正在进行第 "<<R5<<" 序列,共 "<<R8<<" 序列; 正在加工第 "<<_J<<" 槽,共 "<<R10<<" 槽"
-      MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
+      MESSAGE_TEXT="正在进行第 "<<R5<<" 序列,共 "<<R8<<" 序列; 正在加工第 "<<_J<<" 槽,共 "<<R10<<" 槽"
+      ;MESSAGE_TEXT="BROACHING PATH: "<<R5<<"  of   "<<R8<< "    SLOT:   "<<_J<<" of "<<R10
       MSG(MESSAGE_TEXT)
 
       IF (X_POS_SPEED_CHANGE[_I]<X_POS_TOOL_START[_I]) AND (X_POS_SPEED_CHANGE[_I]>X_POS_TOOL_END[_I]) AND (SPEED_ROUGHING[_I]<>SPEED_FINISHING[_I])     ;如果x变速位置在加工起始结束之间，以及粗磨速度不等于精磨速度
