@@ -14,8 +14,8 @@ M00
 STOPRE
 
 ;*** General information**********************
-NUMBER_OF_SLOTS           = 102   ;total number of slots  总齿槽数
-Z_POS_RETURN_X_AXE        =  50   ;pos. axe Z during backstroke axe X  z轴安全回退距离
+NUMBER_OF_SLOTS           = 92   ;total number of slots  总齿槽数
+Z_POS_RETURN_X_AXE        = 60   ;pos. axe Z during backstroke axe X  z轴安全回退距离
 R331                      = 455   ;size of the indexer    工件直径
 STOPRE
 
@@ -32,13 +32,13 @@ ENDIF
 
 IF (R221>0)                                ;if cassette 1 > 0  第一工序调用刀库号，0为不调用
     CASSETTE[1]           =   R221     ;cassette  调用刀库号
-    Z_POS[1]              =   -200     ;pos in-out table axe Z first cassette z轴磨削位置
+    Z_POS[1]              =   -171.14     ;pos in-out table axe Z first cassette z轴磨削位置
     X_POS_TOOL_START[1]   =      0     ;pos tool start first cassette     x轴起始磨削位置
-    X_POS_TOOL_END[1]     = - 6000     ;pos tool end first cassette       x轴终止磨削位置
-    X_POS_SPEED_CHANGE[1] = - 5000     ;pos speed change first cassette   x轴变速位置
-    SPEED_ROUGHING[1]     =   3000     ;speed roughing first cassette     粗磨速度
+    X_POS_TOOL_END[1]     = - 6500     ;pos tool end first cassette       x轴终止磨削位置
+    X_POS_SPEED_CHANGE[1] = - 4100     ;pos speed change first cassette   x轴变速位置
+    SPEED_ROUGHING[1]     =   2000     ;speed roughing first cassette     粗磨速度
     SPEED_FINISHING[1]    =   2000     ;speed finishing first cassette    精磨速度
-    RETURN_SPEED[1]       =   6000     ;return speed axe X first cassette x轴回程速度
+    RETURN_SPEED[1]       =   20000     ;return speed axe X first cassette x轴回程速度
     R240=1                                 ;number of cassettes           调用第一工序
 ENDIF
 
@@ -54,7 +54,7 @@ IF (R222>0)                                ;if cassette 2 > 0   第二工序调�
     R240=2                             ;number of cassettes   调用第二工序
 ENDIF
 
-R71=100;刀库1 y磨削位置
+R71=147.628;刀库1 y磨削位置
 R72=-100;刀库2 y磨削位置
 
 ;***************************************************************
