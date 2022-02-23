@@ -27,15 +27,15 @@ ENDIF
 
 IF R4==2  ;dates for DISC    正式加工所有槽
     R13                   =  0       ;pos axe Y (elevator)   
-    R14                   =  0      ;pos axe C (boat)
+    R14                   =  20      ;pos axe C (boat)
 ENDIF 
 
 IF (R221>0)                                ;if cassette 1 > 0  第一工序调用刀库号，0为不调用
     CASSETTE[1]           =   R221     ;cassette  调用刀库号
     Z_POS[1]              =   -171.14     ;pos in-out table axe Z first cassette z轴磨削位置
     X_POS_TOOL_START[1]   =      0     ;pos tool start first cassette     x轴起始磨削位置
-    X_POS_TOOL_END[1]     = - 6500     ;pos tool end first cassette       x轴终止磨削位置
-    X_POS_SPEED_CHANGE[1] = - 4100     ;pos speed change first cassette   x轴变速位置
+    X_POS_TOOL_END[1]     = - 4200     ;pos tool end first cassette       x轴终止磨削位置
+    X_POS_SPEED_CHANGE[1] = - 2000     ;pos speed change first cassette   x轴变速位置
     SPEED_ROUGHING[1]     =   2000     ;speed roughing first cassette     粗磨速度
     SPEED_FINISHING[1]    =   2000     ;speed finishing first cassette    精磨速度
     RETURN_SPEED[1]       =   20000     ;return speed axe X first cassette x轴回程速度
@@ -44,18 +44,18 @@ ENDIF
 
 IF (R222>0)                                ;if cassette 2 > 0   第二工序调用刀库号，0为不调用
     CASSETTE[2]           =      R222     ;cassette
-    Z_POS[2]              =      -250     ;pos in-out table axe Z second cassette
-    X_POS_TOOL_START[2]   =      -200     ;pos tool start second cassette
-    X_POS_TOOL_END[2]     =      -7000     ;pos tool end second cassette
-    X_POS_SPEED_CHANGE[2] =      -4000     ;pos speed change second cassette
-    SPEED_ROUGHING[2]     =      4000     ;speed roughing second cassette
+    Z_POS[2]              =      -171.14     ;pos in-out table axe Z second cassette
+    X_POS_TOOL_START[2]   =      -4300     ;pos tool start second cassette
+    X_POS_TOOL_END[2]     =      -6200     ;pos tool end second cassette
+    X_POS_SPEED_CHANGE[2] =      -5000     ;pos speed change second cassette
+    SPEED_ROUGHING[2]     =      2000     ;speed roughing second cassette
     SPEED_FINISHING[2]    =      2000     ;speed finishing second cassette
-    RETURN_SPEED[2]       =      60000     ;return speed axe X second cassette 
+    RETURN_SPEED[2]       =      20000     ;return speed axe X second cassette 
     R240=2                             ;number of cassettes   调用第二工序
 ENDIF
 
-R71=147.628;刀库1 y磨削位置
-R72=-100;刀库2 y磨削位置
+R71=144.205;刀库1 y磨削位置
+R72=-173.894;刀库2 y磨削位置
 
 ;***************************************************************
 BROACHING;***************************************************
