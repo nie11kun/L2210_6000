@@ -36,7 +36,7 @@ ENDIF
 
 IF (R221>0)                                ;if cassette 1 > 0  第一工序调用刀库号，0为不调用
     CASSETTE[1]           =   R221     ;cassette  调用刀库号
-    Z_POS[1]              =   -171.14     ;pos in-out table axe Z first cassette z轴磨削位置
+    Z_POS[1]              =   -201.14     ;pos in-out table axe Z first cassette z轴磨削位置
     X_POS_TOOL_START[1]   =      0     ;pos tool start first cassette     x轴起始磨削位置
     X_POS_TOOL_END[1]     = - 4200     ;pos tool end first cassette       x轴终止磨削位置
     X_POS_SPEED_CHANGE[1] = - 2000     ;pos speed change first cassette   x轴变速位置
@@ -48,7 +48,7 @@ ENDIF
 
 IF (R222>0)                                ;if cassette 2 > 0   第二工序调用刀库号，0为不调用
     CASSETTE[2]           =      R222     ;cassette
-    Z_POS[2]              =      -171.14     ;pos in-out table axe Z second cassette
+    Z_POS[2]              =      -201.14     ;pos in-out table axe Z second cassette
     X_POS_TOOL_START[2]   =      -4300     ;pos tool start second cassette
     X_POS_TOOL_END[2]     =      -6200     ;pos tool end second cassette
     X_POS_SPEED_CHANGE[2] =      -5000     ;pos speed change second cassette
