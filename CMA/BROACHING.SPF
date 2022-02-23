@@ -46,7 +46,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       G1 FLIN X-500 F=10000             ;x接近零位
       G1 FNORM X0 F=10000               ;x回到零位
    ELSE
-      G1 X0 F=10000                     ;x回到零位
+      G1 X0 F=5000                      ;x回到零位
    ENDIF
 
    M9                           ;冷却关
@@ -91,7 +91,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
          G1 FLIN X=X_POS_TOOL_START[_I]-500 F=10000                        ;x接近起点
          G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
       ELSE
-         G1 X=X_POS_TOOL_START[_I] F=10000                                 ;x回到起点
+         G1 X=X_POS_TOOL_START[_I] F=5000                                  ;x回到起点
       ENDIF
 
       R30=(360/NUMBER_OF_SLOTS)
@@ -156,7 +156,7 @@ IF $AA_IM[X]<-2000                   ;当前位置距离零点2米以上
    G1 FLIN X-500 F=10000             ;x接近零位
    G1 FNORM X0 F=10000               ;x回到零位
 ELSE
-   G1 X0 F=10000                     ;x回到零位
+   G1 X0 F=5000                      ;x回到零位
 ENDIF
 
 M9                          ;冷却关
