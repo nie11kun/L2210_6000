@@ -39,11 +39,11 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    M46                          ;Z轴夹紧
 
    STOPRE
-   IF $AA_IM[X]<-2000                   ;当前位置距离零点2米以上
+   IF $AA_IM[X]<-1000                   ;当前位置距离零点1米以上
       F=2000                            ;x接近零位
-      G1 G64 G91 FLIN X500 F=20000      ;x接近零位
-      G1 G90 FNORM X-1000 F=20000       ;x接近零位
-      G1 FLIN X-500 F=10000             ;x接近零位
+      G1 G64 G91 FLIN X200 F=20000      ;x接近零位
+      G1 G90 FNORM X-500 F=20000        ;x接近零位
+      G1 FLIN X-200 F=10000             ;x接近零位
       G1 FNORM X0 F=10000               ;x回到零位
    ELSE
       G1 X0 F=5000                      ;x回到零位
@@ -84,11 +84,11 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       R7=_J                              ;当前磨削齿
 
       STOPRE
-      IF $AA_IM[X]-X_POS_TOOL_START[_I]<-2000                              ;当前位置在起点负向2米以上
+      IF $AA_IM[X]-X_POS_TOOL_START[_I]<-1000                              ;当前位置在起点负向1米以上
          F=2000                                                            ;x接近起点
-         G1 G64 G91 FLIN X500 F=20000                                      ;x接近起点
-         G1 G90 FNORM X=X_POS_TOOL_START[_I]-1000 F=RETURN_SPEED[_I]       ;x接近起点
-         G1 FLIN X=X_POS_TOOL_START[_I]-500 F=10000                        ;x接近起点
+         G1 G64 G91 FLIN X200 F=20000                                      ;x接近起点
+         G1 G90 FNORM X=X_POS_TOOL_START[_I]-500 F=RETURN_SPEED[_I]        ;x接近起点
+         G1 FLIN X=X_POS_TOOL_START[_I]-200 F=10000                        ;x接近起点
          G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
       ELSE
          G1 X=X_POS_TOOL_START[_I] F=5000                                  ;x回到起点
@@ -149,11 +149,11 @@ R0=0                        ;程序结束标记为0
 M37                         ;Z轴松开
 G1 Z0 F=3000                ;z轴回到0位
 
-IF $AA_IM[X]<-2000                   ;当前位置距离零点2米以上
+IF $AA_IM[X]<-1000                   ;当前位置距离零点1米以上
    F=2000                            ;x接近零位
-   G1 G64 G91 FLIN X500 F=20000      ;x接近零位
-   G1 G90 FNORM X-1000 F=20000       ;x接近零位
-   G1 FLIN X-500 F=10000             ;x接近零位
+   G1 G64 G91 FLIN X200 F=20000      ;x接近零位
+   G1 G90 FNORM X-500 F=20000        ;x接近零位
+   G1 FLIN X-200 F=10000             ;x接近零位
    G1 FNORM X0 F=10000               ;x回到零位
 ELSE
    G1 X0 F=5000                      ;x回到零位
