@@ -20,14 +20,18 @@ R331                      = 455   ;size of the indexer    工件直径
 STOPRE
 
 IF R4==1  ;dates for COUPON   试加工一个槽功能
-    NUMBER_OF_SLOTS       =   1   ;total number of slots  总齿槽数
-    R13                   =   0   ;pos axe Y (elevator) always zero  y轴补偿
-    R14                   =   0   ;pos axe C (boat) always zero     C轴补偿
+    NUMBER_OF_SLOTS       =   1         ;total number of slots  总齿槽数
+    R13                   =   0         ;pos axe Y (elevator) always zero  y轴补偿
+    R14                   =   0         ;pos axe C (boat) always zero     C轴补偿
+    R71                   =  144.205    ;刀盒1 y磨削位置
+    R72                   =  -173.894   ;刀盒2 y磨削位置
 ENDIF 
 
 IF R4==2  ;dates for DISC    正式加工所有槽
-    R13                   =  0       ;pos axe Y (elevator)   
-    R14                   =  20      ;pos axe C (boat)
+    R13                   =  0          ;pos axe Y (elevator)   
+    R14                   =  20         ;pos axe C (boat)
+    R71                   =  144.205    ;刀盒1 y磨削位置
+    R72                   =  -173.894   ;刀盒2 y磨削位置
 ENDIF 
 
 IF (R221>0)                                ;if cassette 1 > 0  第一工序调用刀库号，0为不调用
@@ -54,10 +58,7 @@ IF (R222>0)                                ;if cassette 2 > 0   第二工序调�
     R240=2                             ;number of cassettes   调用第二工序
 ENDIF
 
-R71=144.205;刀库1 y磨削位置
-R72=-173.894;刀库2 y磨削位置
-
-;***************************************************************
-BROACHING;***************************************************
-;***************************************************************
+;***************************
+BROACHING;******************
+;***************************
 M30
