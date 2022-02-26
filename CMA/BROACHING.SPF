@@ -110,8 +110,6 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
          ENDIF
       ENDIF
 
-      M9                                 ;冷却关
-
       R30=(360/NUMBER_OF_SLOTS)
       R30=R30*_J        
       R30=R30-(360/NUMBER_OF_SLOTS)      ;当前齿角度
@@ -148,6 +146,8 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       G1 Z=Z_POS[_I]+Z_POS_RETURN_X_AXE F=2000                          ;z回退到安全位置
       M46                                                               ;Z轴夹紧
       G4 F1
+
+      M9                                                                ;冷却关
       STOPRE
    ENDFOR
 
