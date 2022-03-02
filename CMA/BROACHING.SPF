@@ -188,6 +188,7 @@ ELSE
    ENDIF
 ENDIF
 
+IF R4==1 GOTOF END1         ;试加工一个槽跳过C轴回到水平
 M76
 G90 G01 C90 F200            ;C回到水平
 M75
@@ -195,6 +196,7 @@ M75
 M94
 G90 G01 Y-280 F2000         ;Y回到负向
 
+END1:
 M21                         ;切削清洁关
 M46 M75 M95 M36             ;Z C Y A 轴夹紧
 
