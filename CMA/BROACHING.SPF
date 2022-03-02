@@ -92,7 +92,14 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
       R7=_J                              ;当前磨削齿
 
       STOPRE
+      R30=(360/NUMBER_OF_SLOTS)
+      R30=R30*_J        
+      R30=R30-(360/NUMBER_OF_SLOTS)      ;当前齿角度
+
       IF $AA_IM[X]-X_POS_TOOL_START[_I]<-1000                              ;当前位置在起点负向1米以上
+         M35                                                               ;A轴松开
+         G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
+
          F=2000                                                            ;x接近起点
          G1 G64 G91 FLIN X200 F=20000                                      ;x接近起点
          G1 G90 FNORM X=X_POS_TOOL_START[_I]-500 F=RETURN_SPEED[_I]        ;x接近起点
@@ -100,22 +107,24 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
          G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
       ELSE
          IF $AA_IM[X]-X_POS_TOOL_START[_I]>1000                               ;当前位置在起点正向1米以上
+            M35                                                               ;A轴松开
+            G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
+
             F=2000                                                            ;x接近起点
             G1 G64 G91 FLIN X-200 F=20000                                     ;x接近起点
             G1 G90 FNORM X=X_POS_TOOL_START[_I]+500 F=RETURN_SPEED[_I]        ;x接近起点
             G1 FLIN X=X_POS_TOOL_START[_I]+200 F=10000                        ;x接近起点
             G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
          ELSE
+            M35                                                               ;A轴松开
+            G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
+
             G1 X=X_POS_TOOL_START[_I] F=5000                                  ;x回到起点
          ENDIF
       ENDIF
 
-      R30=(360/NUMBER_OF_SLOTS)
-      R30=R30*_J        
-      R30=R30-(360/NUMBER_OF_SLOTS)      ;当前齿角度
-
-      M35                                ;A轴松开
-      G1 POS[A]=ACP(R30) FA[A]=500       ;A轴移动到起始位置
+      WAITP                              ;等待定位轴到位
+      STOPRE                             ;如果不加可能产生报警
       M36                                ;A轴夹紧
 
       STOPRE
