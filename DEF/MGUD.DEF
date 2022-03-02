@@ -16,4 +16,5 @@
  DEF NCK REAL A_POS                        ; POSITION INDEXING TABLE
  DEF NCK REAL NUMBER_OF_SLOTS              ; NUMBER OF SLOTS
  DEF NCK STRING[124] MESSAGE_TEXT          ; MESSAGE TEXT
+ DEF NCK REAL INI[20]                      ; 预定义变量
  M30
