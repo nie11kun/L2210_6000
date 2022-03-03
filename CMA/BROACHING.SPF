@@ -101,7 +101,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
          G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
 
          F=2000                                                            ;x接近起点
-         G1 G64 G91 FLIN X200 F=20000                                      ;x接近起点
+         G1 G64 G91 FLIN X200 F=RETURN_SPEED[_I]                           ;x接近起点
          G1 G90 FNORM X=X_POS_TOOL_START[_I]-500 F=RETURN_SPEED[_I]        ;x接近起点
          G1 FLIN X=X_POS_TOOL_START[_I]-200 F=10000                        ;x接近起点
          G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
@@ -111,7 +111,7 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
             G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
 
             F=2000                                                            ;x接近起点
-            G1 G64 G91 FLIN X-200 F=20000                                     ;x接近起点
+            G1 G64 G91 FLIN X-200 F=RETURN_SPEED[_I]                          ;x接近起点
             G1 G90 FNORM X=X_POS_TOOL_START[_I]+500 F=RETURN_SPEED[_I]        ;x接近起点
             G1 FLIN X=X_POS_TOOL_START[_I]+200 F=10000                        ;x接近起点
             G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
