@@ -4,14 +4,14 @@
 ;*  Kom.          : 00986                                                                                                                                            
 ;*  Description   : broaching process control for Hoffmann       
 ;***************************************************************
- DEF NCK REAL X_POS_TOOL_START[3]          ; X POSITION TOOL START
- DEF NCK REAL X_POS_TOOL_END[3]            ; X POSITION TOOL END
- DEF NCK REAL X_POS_SPEED_CHANGE[3]        ; X POSITION CHANGE SPEED
- DEF NCK REAL RETURN_SPEED[3]              ; RETURN SPEED 
- DEF NCK REAL SPEED_ROUGHING[3]            ; BROACHING SPEED ROUGHING      
- DEF NCK REAL SPEED_FINISHING[3]           ; BROACHING SPEED FINISHING
- DEF NCK REAL Z_POS[3]                     ; Z POSITION BROACHING
- DEF NCK REAL CASSETTE[3]                  ; CASSETTE
+ DEF NCK REAL X_POS_TOOL_START[4]          ; X POSITION TOOL START
+ DEF NCK REAL X_POS_TOOL_END[4]            ; X POSITION TOOL END
+ DEF NCK REAL X_POS_SPEED_CHANGE[4]        ; X POSITION CHANGE SPEED
+ DEF NCK REAL RETURN_SPEED[4]              ; RETURN SPEED 
+ DEF NCK REAL SPEED_ROUGHING[4]            ; BROACHING SPEED ROUGHING      
+ DEF NCK REAL SPEED_FINISHING[4]           ; BROACHING SPEED FINISHING
+ DEF NCK REAL Z_POS[4]                     ; Z POSITION BROACHING
+ DEF NCK REAL CASSETTE[4]                  ; CASSETTE
  DEF NCK REAL Z_POS_RETURN_X_AXE           ; Z POSITION X-AXE RETURN
  DEF NCK REAL A_POS                        ; POSITION INDEXING TABLE
  DEF NCK REAL NUMBER_OF_SLOTS              ; NUMBER OF SLOTS

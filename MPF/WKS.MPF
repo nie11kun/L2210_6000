@@ -1,12 +1,12 @@
-;***************************************************************
-GUDINI ;初始化参数********************************************************
-;***************************************************************
+;***************************************
+GUDINI ;初始化参数***********************
+;***************************************
 ;*  编    写      :                                             
 ;*  时    间      :                                             
 ;*  机床编号      :                                             
 ;*  描    述      : 用于汉江机床升级改造后济南拉床的拉削过程控制
 ;*  更    改      : 
-;***************************************************************
+;***************************************
 ;MESSAGE_TEXT="ENTER PARAMETER FOR CASSETTE SEQUENCE AND SELECT COUPON OR DISC . FOLLOW UP WITH NC-START."
 MESSAGE_TEXT="输入刀盒参数及加工模式，然后按 NC START 启动程序"
 MSG(MESSAGE_TEXT)
@@ -16,7 +16,7 @@ STOPRE
 ;*** General information**********************
 NUMBER_OF_SLOTS           = 92   ;total number of slots  总齿槽数
 Z_POS_RETURN_X_AXE        = 60   ;pos. axe Z during backstroke axe X  z轴安全回退距离
-R331                      = 455   ;size of the indexer    工件直径
+R331                      = 455   ;size of the indexer    转台号
 STOPRE
 
 IF R4==1  ;dates for COUPON   试加工一个槽功能
@@ -56,6 +56,18 @@ IF (R222>0)                                ;if cassette 2 > 0   第二工序调�
     SPEED_FINISHING[2]    =      2000     ;speed finishing second cassette
     RETURN_SPEED[2]       =      20000     ;return speed axe X second cassette 
     R240=2                             ;number of cassettes   调用第二工序
+ENDIF
+
+IF (R223>0)                                ;if cassette 3 > 0   第三工序调用刀库号，0为不调用
+    CASSETTE[3]           =      R223     ;cassette
+    Z_POS[3]              =      -201.14+0.77     ;pos in-out table axe Z second cassette
+    X_POS_TOOL_START[3]   =      -3500     ;pos tool start second cassette
+    X_POS_TOOL_END[3]     =      -6000     ;pos tool end second cassette
+    X_POS_SPEED_CHANGE[3] =      -5000     ;pos speed change second cassette
+    SPEED_ROUGHING[3]     =      2000     ;speed roughing second cassette
+    SPEED_FINISHING[3]    =      2000     ;speed finishing second cassette
+    RETURN_SPEED[3]       =      20000     ;return speed axe X second cassette 
+    R240=3                             ;number of cassettes   调用第三工序
 ENDIF
 
 ;***************************

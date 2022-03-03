@@ -10,7 +10,7 @@ Z_POS_RETURN_X_AXE            = 0    ;position axe Z during move back axe X    z
 A_POS                         = 0    ;position of indexing table
 NUMBER_OF_SLOTS               = 0    ;number of slots     总槽数清零
 
-FOR _I=1 TO 2
+FOR _I=1 TO 3
    CASSETTE[_I]               = 0    ; CASSETTE  调用刀库号清零
    RETURN_SPEED[_I]           = 0    ; RETURN SPEED   回程速度清零
    X_POS_TOOL_START[_I]       = 0    ; X POSITION TOOL START  x起始位置清零
