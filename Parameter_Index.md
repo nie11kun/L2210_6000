@@ -57,9 +57,7 @@
 |X_POS_SPEED_CHANGE[1]|工序1-X轴变速位
 |X_POS_SPEED_CHANGE[2]|工序2-X轴变速位
 |X_POS_SPEED_CHANGE[3]|工序3-X轴变速位
-|RETURN_SPEED[1]|工序1-X轴回到回到初始位速度
-|RETURN_SPEED[2]|工序2-X轴回到回到初始位速度
-|RETURN_SPEED[3]|工序3-X轴回到回到初始位速度
+|RETURN_SPEED[1]|X轴回到回到初始位速度
 |SPEED_ROUGHING[1]|工序1-X轴粗磨速度   
 |SPEED_ROUGHING[2]|工序2-X轴粗磨速度   
 |SPEED_ROUGHING[3]|工序3-X轴粗磨速度   
