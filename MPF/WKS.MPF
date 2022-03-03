@@ -17,6 +17,7 @@ STOPRE
 NUMBER_OF_SLOTS           = 92   ;total number of slots  总齿槽数
 Z_POS_RETURN_X_AXE        = 60   ;pos. axe Z during backstroke axe X  z轴安全回退距离
 R331                      = 455   ;size of the indexer    转台号
+RETURN_SPEED[1]           = 30000     ;return speed axe X first cassette x轴回程速度
 STOPRE
 
 IF R4==1  ;dates for COUPON   试加工一个槽功能
@@ -42,7 +43,6 @@ IF (R221>0)                                ;if cassette 1 > 0  第一工序调�
     X_POS_SPEED_CHANGE[1] = - 2000     ;pos speed change first cassette   x轴变速位置
     SPEED_ROUGHING[1]     =   2000     ;speed roughing first cassette     粗磨速度
     SPEED_FINISHING[1]    =   2000     ;speed finishing first cassette    精磨速度
-    RETURN_SPEED[1]       =   20000     ;return speed axe X first cassette x轴回程速度
     R240=1                                 ;number of cassettes           调用第一工序
 ENDIF
 
@@ -54,7 +54,6 @@ IF (R222>0)                                ;if cassette 2 > 0   第二工序调�
     X_POS_SPEED_CHANGE[2] =      -5000     ;pos speed change second cassette
     SPEED_ROUGHING[2]     =      2000     ;speed roughing second cassette
     SPEED_FINISHING[2]    =      2000     ;speed finishing second cassette
-    RETURN_SPEED[2]       =      20000     ;return speed axe X second cassette 
     R240=2                             ;number of cassettes   调用第二工序
 ENDIF
 
@@ -66,7 +65,6 @@ IF (R223>0)                                ;if cassette 3 > 0   第三工序调�
     X_POS_SPEED_CHANGE[3] =      -5000     ;pos speed change second cassette
     SPEED_ROUGHING[3]     =      2000     ;speed roughing second cassette
     SPEED_FINISHING[3]    =      2000     ;speed finishing second cassette
-    RETURN_SPEED[3]       =      20000     ;return speed axe X second cassette 
     R240=3                             ;number of cassettes   调用第三工序
 ENDIF
 

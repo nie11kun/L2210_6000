@@ -42,21 +42,21 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
    M46                          ;Z轴夹紧
 
    STOPRE
-   IF $AA_IM[X]<-1000                   ;当前位置距离零点负向1米以上
-      F=2000                            ;x接近零位
-      G1 G64 G91 FLIN X200 F=20000      ;x接近零位
-      G1 G90 FNORM X-500 F=20000        ;x接近零位
-      G1 FLIN X-200 F=10000             ;x接近零位
-      G1 FNORM X0 F=10000               ;x回到零位
+   IF $AA_IM[X]<-1000                             ;当前位置距离零点负向1米以上
+      F=2000                                      ;x接近零位
+      G1 G64 G91 FLIN X200 F=RETURN_SPEED[1]      ;x接近零位
+      G1 G90 FNORM X-500 F=RETURN_SPEED[1]        ;x接近零位
+      G1 FLIN X-200 F=10000                       ;x接近零位
+      G1 FNORM X0 F=10000                         ;x回到零位
    ELSE
-      IF $AA_IM[X]>1000                     ;当前位置距离零点正向1米以上
-         F=2000                             ;x接近零位
-         G1 G64 G91 FLIN X-200 F=20000      ;x接近零位
-         G1 G90 FNORM X500 F=20000          ;x接近零位
-         G1 FLIN X200 F=10000               ;x接近零位
-         G1 FNORM X0 F=10000                ;x回到零位
+      IF $AA_IM[X]>1000                               ;当前位置距离零点正向1米以上
+         F=2000                                       ;x接近零位
+         G1 G64 G91 FLIN X-200 F=RETURN_SPEED[1]      ;x接近零位
+         G1 G90 FNORM X500 F=RETURN_SPEED[1]          ;x接近零位
+         G1 FLIN X200 F=10000                         ;x接近零位
+         G1 FNORM X0 F=10000                          ;x回到零位
       ELSE
-         G1 X0 F=5000                       ;x回到零位
+         G1 X0 F=5000                                 ;x回到零位
       ENDIF
    ENDIF
 
@@ -104,8 +104,8 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
          G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
 
          F=2000                                                            ;x接近起点
-         G1 G64 G91 FLIN X200 F=RETURN_SPEED[_I]                           ;x接近起点
-         G1 G90 FNORM X=X_POS_TOOL_START[_I]-500 F=RETURN_SPEED[_I]        ;x接近起点
+         G1 G64 G91 FLIN X200 F=RETURN_SPEED[1]                            ;x接近起点
+         G1 G90 FNORM X=X_POS_TOOL_START[_I]-500 F=RETURN_SPEED[1]         ;x接近起点
          G1 FLIN X=X_POS_TOOL_START[_I]-200 F=10000                        ;x接近起点
          G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
       ELSE
@@ -114,8 +114,8 @@ FOR _I=R5 TO R8                 ;当前工序到最后一个工序
             G1 POSA[A]=ACP(R30) FA[A]=500                                     ;A轴移动到起始位置
 
             F=2000                                                            ;x接近起点
-            G1 G64 G91 FLIN X-200 F=RETURN_SPEED[_I]                          ;x接近起点
-            G1 G90 FNORM X=X_POS_TOOL_START[_I]+500 F=RETURN_SPEED[_I]        ;x接近起点
+            G1 G64 G91 FLIN X-200 F=RETURN_SPEED[1]                           ;x接近起点
+            G1 G90 FNORM X=X_POS_TOOL_START[_I]+500 F=RETURN_SPEED[1]         ;x接近起点
             G1 FLIN X=X_POS_TOOL_START[_I]+200 F=10000                        ;x接近起点
             G1 FNORM X=X_POS_TOOL_START[_I] F=10000                           ;x回到起点
          ELSE
@@ -183,21 +183,21 @@ G1 Z0 F=3000                ;z轴回到0位
 
 M9                          ;冷却关
 
-IF $AA_IM[X]<-1000                   ;当前位置距离零点负向1米以上
-   F=2000                            ;x接近零位
-   G1 G64 G91 FLIN X200 F=20000      ;x接近零位
-   G1 G90 FNORM X-500 F=20000        ;x接近零位
-   G1 FLIN X-200 F=10000             ;x接近零位
-   G1 FNORM X0 F=10000               ;x回到零位
+IF $AA_IM[X]<-1000                             ;当前位置距离零点负向1米以上
+   F=2000                                      ;x接近零位
+   G1 G64 G91 FLIN X200 F=RETURN_SPEED[1]      ;x接近零位
+   G1 G90 FNORM X-500 F=RETURN_SPEED[1]        ;x接近零位
+   G1 FLIN X-200 F=10000                       ;x接近零位
+   G1 FNORM X0 F=10000                         ;x回到零位
 ELSE
-   IF $AA_IM[X]>1000                    ;当前位置距离零点正向1米以上
-      F=2000                            ;x接近零位
-      G1 G64 G91 FLIN X-200 F=20000     ;x接近零位
-      G1 G90 FNORM X500 F=20000         ;x接近零位
-      G1 FLIN X200 F=10000              ;x接近零位
-      G1 FNORM X0 F=10000               ;x回到零位
+   IF $AA_IM[X]>1000                              ;当前位置距离零点正向1米以上
+      F=2000                                      ;x接近零位
+      G1 G64 G91 FLIN X-200 F=RETURN_SPEED[1]     ;x接近零位
+      G1 G90 FNORM X500 F=RETURN_SPEED[1]         ;x接近零位
+      G1 FLIN X200 F=10000                        ;x接近零位
+      G1 FNORM X0 F=10000                         ;x回到零位
    ELSE
-      G1 X0 F=5000                      ;x回到零位
+      G1 X0 F=5000                                ;x回到零位
    ENDIF
 ENDIF
 
